@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Simulador de Préstamos</title>
+</head>
+<body>
+
+<div id="output-container">
+   
+</div>
+<div id="weatherInfo">
+  <!-- Aquí se mostrará la información del clima -->
+</div>
+
+
+ 
+
+  <script src="./js/app.js" async></script> 
+  <form id="simuladorForm">
+    <label for="monto">Monto del préstamo:</label>
+    <input type="number" id="monto" required>
+
+    <label for="cuotas">Número de cuotas:</label>
+    <input type="number" id="cuotas" required>
+
+    <button type="button" onclick="simuladorPrestamos.calcularCredito()">Calcular crédito</button>
+</form>
+
+<script>  // Reemplaza 'TU_CLAVE_DE_API' con tu clave de API real
+  const apiKey = 'eab72c7ad2da46928ae213107232912';
+
+  // Reemplaza 'CIUDAD' con el nombre de la ciudad que deseas obtener el clima
+  const ciudad = 'BUENOS AIRES';
+  
+  const weatherInfoElement = document.getElementById('weatherInfo');
+  // Construye la URL de la API
+  const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${ciudad}`;
+  
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      // Actualiza el contenido del elemento con la información del clima actual
+      weatherInfoElement.innerHTML = `
+        <p>Ciudad: ${data.location.name}</p>
+        <p>País: ${data.location.country}</p>
+        <p>Temperatura: ${data.current.temp_c}°C</p>
+        <p>Condición: ${data.current.condition.text}</p>
+      `;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Muestra un mensaje de error en caso de problemas con la solicitud
+      weatherInfoElement.innerHTML = '<p>Error al obtener la información del clima actual</p>';
+    });
+</script>
+
+
+</body>
+</html>
